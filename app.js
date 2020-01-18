@@ -4,16 +4,50 @@ const counter = document.getElementById('counter');
 const container = document.getElementById('container');
 const cards = document.querySelectorAll('.card');
 const imageData = [
-    'images/cardano-ada-logo.png',
-    'images/eos-eos-logo.png',
-    'images/ethereum-eth-logo.png',
-    'images/litecoin-ltc-logo.png',
-    'images/monero-xmr-logo.png',
-    'images/neo-neo-logo.png',
-    'images/stellar-xlm-logo.png'
+    {
+        currency: 'ada',
+        image: 'images/cardano-ada-logo.png',
+        count: 2
+    },
+    {
+        currency: 'eos',
+        image: 'images/eos-eos-logo.png',
+        count: 2
+    },
+    {
+        currency: 'eth',
+        image: 'images/ethereum-eth-logo.png',
+        count: 2
+    },
+    {
+        currency: 'ltc',
+        image: 'images/litecoin-ltc-logo.png',
+        count: 2
+    },
+    {
+        currency: 'xmr',
+        image: 'images/monero-xmr-logo.png',
+        count: 2
+    },
+    {
+        currency: 'neo',
+        image: 'images/neo-neo-logo.png',
+        count: 2
+    },
+    {
+        currency: 'xlm',
+        image: 'images/stellar-xlm-logo.png',
+        count: 2
+    },
+    {
+        currency: 'trx',
+        image: 'images/tron-trx-logo.png',
+        count: 2
+    }
 ];
+
 let card1, card2;
-// let lockBoard = false;
+let lockBoard = false;
 let attemptToMatch = false;
 let count = 0;
 
@@ -31,10 +65,9 @@ function updateCount() {
 }
 
 function flipCard() {
-    if (this === card1) return;
+    if (lockBoard || this === card1) return;
     else updateCount();
     this.classList.add('flip');
-    this.classList.add('active');
 
     if (!attemptToMatch) {
         attemptToMatch = true;
@@ -62,17 +95,19 @@ function cardMatchProp(card) {
 }
 
 function cardsDoNotMatch() {
+    lockBoard = true; //to prevent user from clicking cards before board resets
     setTimeout(() => {
         card1.classList.remove('flip');
         card2.classList.remove('flip');
         resetBoard();
-    }, 2000);
+    }, 1000);
 }
 
 function resetBoard() {
     card1 = null;
     card2 = null;
     attemptToMatch = false;
+    lockBoard = false;
 }
 
 //startBtn.addEventListener('click', startGame);
