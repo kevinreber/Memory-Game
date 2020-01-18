@@ -1,71 +1,68 @@
 const overlay = document.getElementById('overlay');
-const startBtn = document.querySelector('.start-btn');
+const gameBtn = document.getElementById('game-button');
+//const newGameBtn = document.getElementById('new-game-button');
 const counter = document.getElementById('counter');
-const container = document.getElementById('container');
 const cards = document.querySelectorAll('.card');
-const imageData = [
-    {
-        currency: 'ada',
-        image: 'images/cardano-ada-logo.png',
-        count: 2
-    },
-    {
-        currency: 'eos',
-        image: 'images/eos-eos-logo.png',
-        count: 2
-    },
-    {
-        currency: 'eth',
-        image: 'images/ethereum-eth-logo.png',
-        count: 2
-    },
-    {
-        currency: 'ltc',
-        image: 'images/litecoin-ltc-logo.png',
-        count: 2
-    },
-    {
-        currency: 'xmr',
-        image: 'images/monero-xmr-logo.png',
-        count: 2
-    },
-    {
-        currency: 'neo',
-        image: 'images/neo-neo-logo.png',
-        count: 2
-    },
-    {
-        currency: 'xlm',
-        image: 'images/stellar-xlm-logo.png',
-        count: 2
-    },
-    {
-        currency: 'trx',
-        image: 'images/tron-trx-logo.png',
-        count: 2
-    }
-];
-
+let gameScore = document.getElementById('game-score');
+let bestScore = document.getElementById('best-score');
+let highScore = 0;
 let card1, card2;
-let lockBoard = false;
+let lockBoard = true;
 let attemptToMatch = false;
+let matches = 0;
 let count = 0;
 
-// function randomNum(){
-//     return Math.floor(Math.random() * 12);
-// }
+
+//FUNCTIONS
+//Random number to shuffle card order
+function randomNum() {
+    return Math.floor(Math.random() * 17);
+}
+
+function checkHighScore() {
+    if(localStorage.highScore){
+        highScore = JSON.parse(localStorage.highScore);
+        bestScore.textContent = highScore; //Update Best Score
+    } else bestScore.textContent = '-';
+}
 
 function startGame() {
+    checkHighScore();
     overlay.style.display = 'none';
+    count = 0;
+    if (gameBtn.textContent = 'RESTART') {
+        resetGame();
+    }
+    gameScore.textContent = count; //Reset score
+    lockBoard = false; //Allow user to click cards
+    gameBtn.textContent = 'RESTART'; //Restart button
+    gameBtn.style.opacity = '.6';
+    shuffleCards();
+}
+
+function resetGame() {
+    matches = 0;
+    count = 0;
+    resetCards();
+    shuffleCards();
+}
+
+function shuffleCards() {
+    for (let card of cards) {
+        card.classList.remove('flip', 'match');
+        card.style.opacity = '1';
+        card.style.order = randomNum();
+        card.addEventListener('click', flipCard);
+    }
 }
 
 function updateCount() {
     count++;
-    counter.querySelector('h3').textContent = count;
+    gameScore.textContent = count;
 }
 
 function flipCard() {
-    if (lockBoard || this === card1) return;
+    if (lockBoard || this === card1) return; //Cannot flip card
     else updateCount();
     this.classList.add('flip');
 
@@ -83,14 +80,14 @@ function checkMatch() {
 }
 
 function cardsMatch() {
+    matches++;
+    if (matches === 8) endGame(); //If all cards match, end game
     cardMatchProp(card1);
     cardMatchProp(card2);
-    resetBoard();
+    resetCards();
 }
 
 function cardMatchProp(card) {
-    card.classList.remove('active');
-    card.classList.add('match');
     card.removeEventListener('click', flipCard);
 }
 
@@ -99,19 +96,44 @@ function cardsDoNotMatch() {
     setTimeout(() => {
         card1.classList.remove('flip');
         card2.classList.remove('flip');
-        resetBoard();
+        resetCards();
     }, 1000);
 }
 
-function resetBoard() {
+function resetCards() {
     card1 = null;
     card2 = null;
     attemptToMatch = false;
     lockBoard = false;
 }
 
-//startBtn.addEventListener('click', startGame);
+function endGame() {
+    let html;
+    if (count < highScore) {
+        highScore = count;
+        localStorage.setItem('highScore', JSON.stringify(highScore)); //Update local storage
+        html = `
+            <div class="overlay-content">
+                <h1>New Best Score!</h1>
+                <h3>${count}</h3>
+                <a href="#" id="new-game-button" class="btn">PLAY AGAIN</a>
+            </div>
+        `
+    } else {
+        html = `
+            <div class="overlay-content">
+                <h1>You Win!</h1>
+                <h3>${count}</h3>
+                <a href="#" id="new-game-button" class="btn">PLAY AGAIN</a>
+            </div>
+            `
+    }
+    overlay.innerHTML = html;
+    overlay.style.display = 'block';
 
-for (let card of cards) {
-    card.addEventListener('click', flipCard);
+    document.getElementById('new-game-button').addEventListener('click', startGame);
 }
+
+//EVENT LISTENERS
+window.onload = checkHighScore();
+gameBtn.addEventListener('click', startGame);

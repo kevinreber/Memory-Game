@@ -10,14 +10,6 @@
 </head>
 
 <body>
-    <!-- Game Start -->
-    <!-- <div id="overlay">
-        <h1>Memory Game</h1>
-        <h3>Best Score:-</h3>
-        <button class="btn start-btn">Start Game</button>
-    </div> -->
-    <!-- /Game Start -->
-
     <div class="container">
         <!-- Game Board -->
         <div class="gameboard">
@@ -86,11 +78,20 @@
                 <img class="card-face back" src="images/cover/bitcoin-btc-logo.png" alt="cover">
             </div>
         </div> <!-- /Game Board -->
-        <!-- Game Counter -->
-        <div id="counter">
-            <h3>0</h3>
-            <p>HIGH SCORE: <span id="high-score">-</span></p>
-        </div> <!-- /Game Counter -->
+
+        <footer>
+            <a href="#" id="game-button" class="btn">START GAME</a>
+            <!-- Game Counter -->
+            <div id="counter">
+                <h3 id="game-score">0</h3>
+                <p>BEST SCORE: <span id="best-score"></span></p>
+            </div> <!-- /Game Counter -->
+        </footer>
+
+        <!-- Game End -->
+        <div id="overlay">
+        </div> <!-- /Game End -->
+
     </div>
 
     <script src="app.js"></script>
