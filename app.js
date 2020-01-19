@@ -11,7 +11,6 @@ let attemptToMatch = false;
 let matches = 0;
 let count = 0;
 
-
 //FUNCTIONS
 //Random number to shuffle card order
 function randomNum() {
@@ -19,7 +18,7 @@ function randomNum() {
 }
 
 function checkHighScore() {
-    if(localStorage.highScore){
+    if (localStorage.highScore) {
         highScore = JSON.parse(localStorage.highScore);
         bestScore.textContent = highScore; //Update Best Score
     } else bestScore.textContent = '-';
