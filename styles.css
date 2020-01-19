@@ -151,9 +151,9 @@ footer {
     box-shadow: 0 0 20px 3px #4d4d4d;
 }
 
-.match {
+/* .card-face.match {
     box-shadow: 0 0 20px 3px var(--orange);
-}
+} */
 
 @media (min-width: 768px) {
     .gameboard {
