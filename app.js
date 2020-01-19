@@ -1,6 +1,5 @@
 const overlay = document.getElementById('overlay');
 const gameBtn = document.getElementById('game-button');
-//const newGameBtn = document.getElementById('new-game-button');
 const counter = document.getElementById('counter');
 const cards = document.querySelectorAll('.card');
 let gameScore = document.getElementById('game-score');
