@@ -58,7 +58,6 @@ function checkHighScore() {
     renderGameBoard();
 }
 
-
 //Renders cards
 function renderCard(coin) {
     const crypto = cryptos[coin];
