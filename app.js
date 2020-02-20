@@ -59,7 +59,7 @@ function checkHighScore() {
 }
 
 
-//Renders cars
+//Renders cards
 function renderCard(coin) {
     const crypto = cryptos[coin];
     let html = `
