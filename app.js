@@ -7,42 +7,6 @@ let attemptToMatch = false;
 let matches = 0;
 let count = 0;
 
-//Data on cryptos and their source
-const cryptos = {
-    ada: {
-        data: "ada",
-        src: "cardano-ada-logo.png"
-    },
-    eos: {
-        data: "eos",
-        src: "eos-eos-logo.png"
-    },
-    eth: {
-        data: "eth",
-        src: "ethereum-eth-logo.png"
-    },
-    trx: {
-        data: "trx",
-        src: "tron-trx-logo.png"
-    },
-    ltc: {
-        data: "ltc",
-        src: "litecoin-ltc-logo.png"
-    },
-    neo: {
-        data: "neo",
-        src: "neo-neo-logo.png"
-    },
-    xmr: {
-        data: "xmr",
-        src: "monero-xmr-logo.png"
-    },
-    xlm: {
-        data: "xlm",
-        src: "stellar-xlm-logo.png"
-    }
-}
-
 //Random number to shuffle card order
 function randomNum() {
     return Math.floor(Math.random() * 17);
@@ -60,6 +24,41 @@ function checkHighScore() {
 
 //Renders cards
 function renderCard(coin) {
+    //Data on cryptos and their source
+    const cryptos = {
+        ada: {
+            data: "ada",
+            src: "cardano-ada-logo.png"
+        },
+        eos: {
+            data: "eos",
+            src: "eos-eos-logo.png"
+        },
+        eth: {
+            data: "eth",
+            src: "ethereum-eth-logo.png"
+        },
+        trx: {
+            data: "trx",
+            src: "tron-trx-logo.png"
+        },
+        ltc: {
+            data: "ltc",
+            src: "litecoin-ltc-logo.png"
+        },
+        neo: {
+            data: "neo",
+            src: "neo-neo-logo.png"
+        },
+        xmr: {
+            data: "xmr",
+            src: "monero-xmr-logo.png"
+        },
+        xlm: {
+            data: "xlm",
+            src: "stellar-xlm-logo.png"
+        }
+    };
     const crypto = cryptos[coin];
     let html = `
     <div class="card" data-crypto="${crypto.data}">
@@ -146,7 +145,7 @@ function flipCard() {
         return; //Need return to store card1 and end function
     }
     card2 = this;
-    checkMatch();   //Check if cards match when player has guessed card2
+    checkMatch(); //Check if cards match when player has guessed card2
 }
 
 //Checks if cards match
