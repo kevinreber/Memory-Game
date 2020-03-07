@@ -49,33 +49,31 @@ class MemoryGame {
     }
 
     addEvents() {
-        this.gameBtn.addEventListener('click', this.startGame);
+        this.gameBtn.addEventListener('click', () => this.startGame());
     }
 
     startGame() {
-        console.log('start');
-
         let gameScore = document.getElementById('game-score');
         this.checkHighScore();
-        // this.overlay.style.display = 'none';
+        this.overlay.style.display = 'none';
         this.count = 0;
-        // if (this.gameBtn.textContent = 'RESTART') {
-        //     this.resetGame();
-        // }
-        // gameScore.textContent = this.count; //Reset score
-        // this.lockBoard = false; //Allow user to click cards
-        // this.gameBtn.textContent = 'RESTART'; //Restart button
-        // this.gameBtn.style.opacity = '.6';
+        if (this.gameBtn.textContent = 'RESTART') {
+            this.resetGame();
+        }
+        gameScore.textContent = this.count; //Reset score
+        this.lockBoard = false; //Allow user to click cards
+        this.gameBtn.textContent = 'RESTART'; //Restart button
+        this.gameBtn.style.opacity = '.6';
         this.shuffleCards();
     }
 
     //Checks localStorage for highScore
     checkHighScore() {
-        // let bestScore = document.getElementById('best-score');
-        // if (localStorage.highScore) {
-        //     this.highScore = JSON.parse(localStorage.highScore);
-        //     bestScore.textContent = this.highScore; //Update Best Score
-        // } else bestScore.textContent = '-';
+        let bestScore = document.getElementById('best-score');
+        if (localStorage.highScore) {
+            this.highScore = JSON.parse(localStorage.highScore);
+            bestScore.textContent = this.highScore; //Update Best Score
+        } else bestScore.textContent = '-';
     }
 
     //Random number to shuffle card order
@@ -90,7 +88,7 @@ class MemoryGame {
             card.classList.remove('flip', 'match');
             card.style.opacity = '1';
             card.style.order = this.randomNum();
-            card.addEventListener('click', this.flipCard);
+            card.addEventListener('click', (e) => this.flipCard(e));
         }
     }
 
@@ -117,18 +115,23 @@ class MemoryGame {
     }
 
     //Flips card  when player has made a guess
-    // TODO: may need to change 'this' to 'e.target'
-    flipCard() {
-        if (this.lockBoard || this === this.card1) return; //Locks card1 so player cannot flip card1 again
+    flipCard(e) {
+        const card = e.target;
+        if (this.lockBoard || card === this.card1) return; //Locks card1 so player cannot flip card1 again
         else this.updateCount();
-        this.classList.add('flip');
+
+        card.classList.add('flip');
 
         if (!this.attemptToMatch) {
             this.attemptToMatch = true;
-            this.card1 = this;
+            this.card1 = card;
+            console.log(this.card1);
+
             return; //Need return to store card1 and end function
         }
-        this.card2 = this;
+        this.card2 = card;
+        console.log(this.card2);
+
         this.checkMatch(); //Check if cards match when player has guessed card2
     }
 
